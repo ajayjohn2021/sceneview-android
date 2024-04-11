@@ -1,5 +1,6 @@
 package io.github.sceneview.node
 
+import android.util.Log
 import android.view.MotionEvent
 import com.google.android.filament.Camera
 import com.google.android.filament.Camera.Projection
@@ -327,7 +328,11 @@ open class CameraNode(engine: Engine, entity: Entity) : Node(engine, entity), Ca
     override fun destroy() {
         super.destroy()
 
-        engine.safeDestroyCamera(camera)
+        try {
+            engine.safeDestroyCamera(camera)
+        }catch (e: NullPointerException){
+            Log.e("CameraNode", "NullPointerException: engine.safeDestroyCamera(camera)")
+        }
     }
 
     internal fun setView(view: View) {
